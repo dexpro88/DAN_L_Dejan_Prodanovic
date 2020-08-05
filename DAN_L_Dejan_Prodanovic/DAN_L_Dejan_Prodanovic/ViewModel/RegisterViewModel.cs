@@ -1,10 +1,14 @@
 ﻿using DAN_L_Dejan_Prodanovic.Command;
+using DAN_L_Dejan_Prodanovic.Model;
+using DAN_L_Dejan_Prodanovic.Service;
+using DAN_L_Dejan_Prodanovic.Validation;
 using DAN_L_Dejan_Prodanovic.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -13,10 +17,12 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
     class RegisterViewModel:ViewModelBase
     {
         Register view;
+        IService service;
 
         public RegisterViewModel(Register registerView)
         {
             view = registerView;
+            service = new ServiceClass();
         }
 
         private string userName;
@@ -69,24 +75,33 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
 
             string password = (obj as PasswordBox).Password;
 
-            //if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(password))
-            //{
-            //    MessageBox.Show("Wrong user name or password");
-            //    return;
-            //}
-            //if (UserName.Equals("WPFMaster") &&
-            //    password.Equals("WPFAccess"))
-            //{
-            //    PredifinedAccount predifinedAccount = new PredifinedAccount();
-            //    view.Close();
-            //    predifinedAccount.Show();
-            //}
+            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("You must enter values for username and password");
+                return;
+            }
+            tblUser newUser = new tblUser();
+            newUser.UserName = UserName;
+            newUser.UserPassword = password;
 
-            //else
-            //{
-            //    MessageBox.Show("Wrong username or password");
+            tblUser userInDb = service.GetUserByUserName(UserName);
+            if (userInDb!=null)
+            {
+                MessageBox.Show("Username is taken. Choose another username.");
+                return;
+            }
 
-            //}
+            if (!ValidationClass.IsPasswordValid(password))
+            {
+                MessageBox.Show("Password is not valid. \nMinimal length must be 6\n" +
+                    "You need at least 2 upper case letters");
+                return;
+            }
+
+            service.AddUser(newUser);
+            MessageBox.Show("You succesfully created account");
+            view.Close();
+            
 
 
         }
@@ -110,8 +125,37 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
 
             Register register = new Register();
             register.ShowDialog();
+           
 
+        }
 
+        private ICommand close;
+        public ICommand Close
+        {
+            get
+            {
+                if (close == null)
+                {
+                    close = new RelayCommand(param => CloseExecute(), param => CanCloseExecute());
+                }
+                return close;
+            }
+        }
+
+        private void CloseExecute()
+        {
+            try
+            {
+                view.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanCloseExecute()
+        {
+            return true;
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using DAN_L_Dejan_Prodanovic.Command;
+using DAN_L_Dejan_Prodanovic.Model;
+using DAN_L_Dejan_Prodanovic.Service;
 using DAN_L_Dejan_Prodanovic.View;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,11 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
     class LoginViewModel:ViewModelBase
     {
         LoginView view;
-
+        IService service;
         public LoginViewModel(LoginView loginView)
         {
             view = loginView;
+            service = new ServiceClass();
         }
 
         private string userName;
@@ -70,24 +73,24 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
 
             string password = (obj as PasswordBox).Password;
 
-            //if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(password))
-            //{
-            //    MessageBox.Show("Wrong user name or password");
-            //    return;
-            //}
-            //if (UserName.Equals("WPFMaster") &&
-            //    password.Equals("WPFAccess"))
-            //{
-            //    PredifinedAccount predifinedAccount = new PredifinedAccount();
-            //    view.Close();
-            //    predifinedAccount.Show();
-            //}
-           
-            //else
-            //{
-            //    MessageBox.Show("Wrong username or password");
+            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Wrong user name or password");
+                return;
+            }
 
-            //}
+            tblUser userInDb = service.GetUserByUserNameAndPassword(UserName,password);
+            if (userInDb==null)
+            {
+                MessageBox.Show("Wrong user name or password");
+                return;
+            }
+            else
+            {
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.Show();
+                view.Close();
+            }
 
 
         }

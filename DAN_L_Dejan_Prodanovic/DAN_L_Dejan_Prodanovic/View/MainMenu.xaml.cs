@@ -1,5 +1,4 @@
-﻿using DAN_L_Dejan_Prodanovic.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +15,13 @@ using System.Windows.Shapes;
 namespace DAN_L_Dejan_Prodanovic.View
 {
     /// <summary>
-    /// Interaction logic for Register.xaml
+    /// Interaction logic for MainMenu.xaml
     /// </summary>
-    public partial class Register : Window
+    public partial class MainMenu : Window
     {
-        public Register()
+        public MainMenu()
         {
             InitializeComponent();
-            DataContext = new RegisterViewModel(this);
         }
     }
 }
