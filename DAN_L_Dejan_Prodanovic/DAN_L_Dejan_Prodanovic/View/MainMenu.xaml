@@ -50,8 +50,8 @@
         </StackPanel>
         <DataGrid Grid.Row="1"
                   Name="DataGridResults"
-                  ItemsSource="{Binding PizzaList, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding SelectedPizza,UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding SongList, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedSong,UpdateSourceTrigger=PropertyChanged}"
                   IsReadOnly="True"
                   HeadersVisibility="Column"
                   AutoGenerateColumns="False"
@@ -61,19 +61,19 @@
                   FontWeight="Bold">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Song name"
-                                    Binding="{Binding PizzaType}" />
+                                    Binding="{Binding SongName}" />
                 <DataGridTextColumn Header="Author"
-                                    Binding="{Binding Price}" />
+                                    Binding="{Binding Author}" />
                 <DataGridTextColumn Header="Length"
-                                    Binding="{Binding Price}" />
+                                    Binding="{Binding SongLength}" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Width="100"
                                     Height="20"
-                                    Command="{Binding Path=DataContext.AddToOrder, RelativeSource= {RelativeSource FindAncestor,
+                                    Command="{Binding Path=DataContext.DeleteSong, RelativeSource= {RelativeSource FindAncestor,
                                        AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}"
-                                    Content="Add to order" />
+                                    Content="Delete" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

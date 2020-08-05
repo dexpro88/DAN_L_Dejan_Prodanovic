@@ -57,13 +57,13 @@
             <TextBox Text="{Binding Song.SongName}" />
             <Label Content="Author:" />
             <TextBox Text="{Binding Song.Author}" />
-            <Label Content="Length:" />
+            <Label Content="Length (Format 00:00):" />
             <TextBox Text="{Binding Song.SongLength}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     Grid.Row="2">
-            <Button Command="{Binding SubmitCommand}"
+            <Button Command="{Binding AddSong}"
                     CommandParameter="{Binding ElementName=passwordBox}"
                     Content="Save" />
             <Button Command="{Binding Close}"

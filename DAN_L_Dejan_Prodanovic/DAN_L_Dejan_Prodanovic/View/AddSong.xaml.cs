@@ -26,5 +26,10 @@ namespace DAN_L_Dejan_Prodanovic.View
             DataContext = new AddSongViewModel(this);
 
         }
+        public AddSong(string username)
+        {
+            InitializeComponent();
+            DataContext = new AddSongViewModel(this, username);
+        }
     }
 }

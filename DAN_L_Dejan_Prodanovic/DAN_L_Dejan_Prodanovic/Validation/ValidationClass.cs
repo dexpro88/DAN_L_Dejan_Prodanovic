@@ -42,16 +42,16 @@ namespace DAN_L_Dejan_Prodanovic.Validation
                 return false;
             }
             string minutes = songLength.Substring(0,2);
-            string seconds = songLength.Substring(3,5);
+            string seconds = songLength.Substring(3,2);
 
             int min = Int32.Parse(minutes);
             int sec = Int32.Parse(seconds);
 
             if (min>59||sec>59)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
     }
 }

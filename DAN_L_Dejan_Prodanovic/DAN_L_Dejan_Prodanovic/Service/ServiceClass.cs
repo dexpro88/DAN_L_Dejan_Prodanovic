@@ -100,6 +100,24 @@ namespace DAN_L_Dejan_Prodanovic.Service
             }
         }
 
+        public List<tblSong> GetSongsOfUser(int userid)
+        {
+            try
+            {
+                using (AudioPlayerDataEntities context = new AudioPlayerDataEntities())
+                {
+                    List<tblSong> list = new List<tblSong>();
+                    list = (from x in context.tblSongs where x.UserID== userid select x).ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
         public tblSong AddSong(tblSong song)
         {
             try
@@ -112,6 +130,8 @@ namespace DAN_L_Dejan_Prodanovic.Service
                     newSong.SongName = song.SongName;
                     newSong.Author = song.Author;
                     newSong.SongLength = song.SongLength;
+                    newSong.UserID = song.UserID;
+
 
 
                     context.tblSongs.Add(newSong);
@@ -129,6 +149,29 @@ namespace DAN_L_Dejan_Prodanovic.Service
             }
         }
 
+        public void DeleteSong(int songId)
+        {
+            try
+            {
+                using (AudioPlayerDataEntities context = new AudioPlayerDataEntities())
+                {
+                    tblSong songToDelete = (from u in context.tblSongs
+                                            where u.SongID == songId select u).First();
+                    
 
+                    context.tblSongs.Remove(songToDelete);
+                   
+
+
+                    context.SaveChanges();
+
+                   
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
     }
 }

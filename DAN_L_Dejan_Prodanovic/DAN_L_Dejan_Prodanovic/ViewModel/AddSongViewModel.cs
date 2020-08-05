@@ -1,5 +1,7 @@
 ﻿using DAN_L_Dejan_Prodanovic.Command;
+using DAN_L_Dejan_Prodanovic.Model;
 using DAN_L_Dejan_Prodanovic.Service;
+using DAN_L_Dejan_Prodanovic.Validation;
 using DAN_L_Dejan_Prodanovic.View;
 using System;
 using System.Collections.Generic;
@@ -15,25 +17,37 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
     {
         AddSong view;
         IService service;
+        string UserName;
 
         public AddSongViewModel(AddSong addSongView)
         {
             view = addSongView;
             service = new ServiceClass();
+            Song = new tblSong();
         }
 
-        private string userName;
-        public string UserName
+        public AddSongViewModel(AddSong addSongView, string Username)
+        {
+            view = addSongView;
+            service = new ServiceClass();
+
+            this.UserName = Username;
+            Song = new tblSong();
+        }
+
+
+        private tblSong song;
+        public tblSong Song
         {
 
             get
             {
-                return userName;
+                return song;
             }
             set
             {
-                userName = value;
-                OnPropertyChanged("UserName");
+                song = value;
+                OnPropertyChanged("Song");
             }
         }
 
@@ -55,16 +69,17 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
         {
             try
             {
-                //OrderView orderView = new OrderView(orederedPizzas, totalAmountNum, JMBG);
-                //orderView.ShowDialog();
+                if (!ValidationClass.IsSongLengthValid(Song.SongLength))
+                {
+                    MessageBox.Show("Lenght is not in valid format");
+                }
 
-                //if ((orderView.DataContext as OrderViewModel).OrderConfirmed == true)
-                //{
-                //    ViewMakeOrder = Visibility.Hidden;
-                //    ViewShowOrder = Visibility.Visible;
-                //    orderConfirmed = true;
-                //}
+                tblUser user = service.GetUserByUserName(UserName);
+                Song.UserID = user.UserID;
 
+                service.AddSong(Song);
+
+                view.Close();
 
             }
             catch (Exception ex)
@@ -75,17 +90,11 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
 
         private bool CanAddSongExecute()
         {
-            //if (!orederedPizzas.Any() || orderConfirmed)
-            //{
-            //    return false;
-            //}
-            //if (ordersOfUser.Any())
-            //{
-            //    if (ordersOfUser.Last().OrderStatus == "W")
-            //    {
-            //        return false;
-            //    }
-            //}
+            if (string.IsNullOrEmpty(Song.SongName)||string.IsNullOrEmpty(Song.Author)
+                ||string.IsNullOrEmpty(Song.SongLength))
+            {
+                return false;
+            }
             return true;
         }
         private ICommand close;

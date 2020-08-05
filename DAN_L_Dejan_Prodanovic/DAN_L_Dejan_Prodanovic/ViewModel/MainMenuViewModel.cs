@@ -18,8 +18,9 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
         
         private string Username;
         IService service;
+        tblUser userLogedIn;
 
-        
+
         public MainMenuViewModel(MainMenu menuViewOpen)
         {
             menuView = menuViewOpen;
@@ -33,39 +34,28 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
             service = new ServiceClass();
              
             this.Username = Username;
+            userLogedIn = service.GetUserByUserName(Username);
+            SongList = service.GetSongsOfUser(userLogedIn.UserID);
         }
-        
 
-        
 
-        private string totalAmount = "Total order amount: 0";
-        public string TotalAmount
+
+
+        private tblSong selectedSong;
+        public tblSong SelectedSong
         {
             get
             {
-                return totalAmount;
+                return selectedSong;
             }
             set
             {
-                totalAmount = value;
-                OnPropertyChanged("TotalAmount");
+                selectedSong = value;
+                OnPropertyChanged("SelectedSong");
             }
         }
 
-        private int currentAmount = 0;
-        public int CurrentAmount
-        {
-            get
-            {
-                return currentAmount;
-            }
-            set
-            {
-                currentAmount = value;
-                OnPropertyChanged("CurrentAmount");
-
-            }
-        }
+       
 
 
 
@@ -82,8 +72,6 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
                 OnPropertyChanged("SongList");
             }
         }
-
-
 
 
         #region Commands
@@ -105,8 +93,9 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
         {
             try
             {
-                AddSong addSong = new AddSong();
+                AddSong addSong = new AddSong(Username);
                 addSong.ShowDialog();
+                SongList = service.GetSongsOfUser(userLogedIn.UserID);
             }
             catch (Exception ex)
             {
@@ -119,9 +108,59 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
             return true;
         }
 
-       
+        private ICommand deleteSong;
+        public ICommand DeleteSong
+        {
+            get
+            {
+                if (deleteSong == null)
+                {
+                    deleteSong = new RelayCommand(param => DeleteSongExecute(), param => CanDeleteSongExecute());
+                }
+                return deleteSong;
+            }
+        }
 
-       
+        private void DeleteSongExecute()
+        {
+            try
+            {
+                if (SelectedSong != null)
+                {
+
+                    MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete this song?" +
+                         "" , "My App",
+                        MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                    int songId = SelectedSong.SongID;
+
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            service.DeleteSong(songId);
+                            SongList = service.GetSongsOfUser(userLogedIn.UserID);
+
+                            break;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanDeleteSongExecute() { 
+            if (SelectedSong == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+
 
         private ICommand logout;
         public ICommand Logout
