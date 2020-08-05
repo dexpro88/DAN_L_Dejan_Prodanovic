@@ -86,7 +86,7 @@
             <Button Visibility="{Binding ViewMakeOrder, UpdateSourceTrigger=PropertyChanged}"
                     Width="100"
                     Command="{Binding AddSong}"
-                    Content="Make Order" />
+                    Content="Add song" />
             
             <Button Command="{Binding Close}"
                     Content="Close" />

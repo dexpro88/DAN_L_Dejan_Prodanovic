@@ -1,6 +1,7 @@
 ﻿using DAN_L_Dejan_Prodanovic.Command;
 using DAN_L_Dejan_Prodanovic.Model;
 using DAN_L_Dejan_Prodanovic.Service;
+using DAN_L_Dejan_Prodanovic.Utility;
 using DAN_L_Dejan_Prodanovic.View;
 using System;
 using System.Collections.Generic;
@@ -71,7 +72,9 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
         void Submit(object obj)
         {
 
-            string password = (obj as PasswordBox).Password;
+            string encryptedString = (obj as PasswordBox).Password;
+
+            string password = EncryptionHelper.Encrypt(encryptedString);
 
             if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(password))
             {

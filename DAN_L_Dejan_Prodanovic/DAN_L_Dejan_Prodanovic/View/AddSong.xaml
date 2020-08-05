@@ -5,8 +5,69 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DAN_L_Dejan_Prodanovic.View"
         mc:Ignorable="d"
-        Title="AddSong" Height="450" Width="800">
+        Title="AddSong"
+        Height="500"
+        Width="400"
+        Background="#2e3137"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="20,0,20,0" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Padding"
+                    Value="10,0,10,0" />
+            <Setter Property="Width"
+                    Value="80" />
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="Background"
+                    Value="#545d6a" />
+            <Setter Property="FontSize"
+                    Value="12" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Background"
+                    Value="#545d6a" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+            <Setter Property="FontSize"
+                    Value="12" />
+            <Setter Property="Width"
+                    Value="200" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize"
+                    Value="12" />
+            <Setter Property="Foreground"
+                    Value="White" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical"
+                    HorizontalAlignment="Center">
+            <Label Content="Name:" />
+            <TextBox Text="{Binding Song.SongName}" />
+            <Label Content="Author:" />
+            <TextBox Text="{Binding Song.Author}" />
+            <Label Content="Length:" />
+            <TextBox Text="{Binding Song.SongLength}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Grid.Row="2">
+            <Button Command="{Binding SubmitCommand}"
+                    CommandParameter="{Binding ElementName=passwordBox}"
+                    Content="Save" />
+            <Button Command="{Binding Close}"
+                    Content="Close" />
+        </StackPanel>
     </Grid>
 </Window>

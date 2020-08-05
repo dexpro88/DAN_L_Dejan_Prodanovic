@@ -1,6 +1,7 @@
 ﻿using DAN_L_Dejan_Prodanovic.Command;
 using DAN_L_Dejan_Prodanovic.Model;
 using DAN_L_Dejan_Prodanovic.Service;
+using DAN_L_Dejan_Prodanovic.Utility;
 using DAN_L_Dejan_Prodanovic.Validation;
 using DAN_L_Dejan_Prodanovic.View;
 using System;
@@ -73,9 +74,13 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
         void Submit(object obj)
         {
 
-            string password = (obj as PasswordBox).Password;
+            
 
-            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(password))
+            string encryptedString = (obj as PasswordBox).Password;
+
+            string password = EncryptionHelper.Encrypt(encryptedString);
+
+            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(encryptedString))
             {
                 MessageBox.Show("You must enter values for username and password");
                 return;
@@ -91,7 +96,7 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
                 return;
             }
 
-            if (!ValidationClass.IsPasswordValid(password))
+            if (!ValidationClass.IsPasswordValid(encryptedString))
             {
                 MessageBox.Show("Password is not valid. \nMinimal length must be 6\n" +
                     "You need at least 2 upper case letters");

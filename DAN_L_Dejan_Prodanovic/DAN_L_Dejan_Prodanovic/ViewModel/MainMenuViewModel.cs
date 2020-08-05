@@ -1,4 +1,5 @@
 ﻿using DAN_L_Dejan_Prodanovic.Command;
+using DAN_L_Dejan_Prodanovic.Model;
 using DAN_L_Dejan_Prodanovic.Service;
 using DAN_L_Dejan_Prodanovic.View;
 using System;
@@ -66,24 +67,24 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
             }
         }
 
-        
-
-        //private List<tblPizza> pizzaList;
-        //public List<tblPizza> PizzaList
-        //{
-        //    get
-        //    {
-        //        return pizzaList;
-        //    }
-        //    set
-        //    {
-        //        pizzaList = value;
-        //        OnPropertyChanged("PizzaList");
-        //    }
-        //}
 
 
-        
+        private List<tblSong> songList;
+        public List<tblSong> SongList
+        {
+            get
+            {
+                return songList;
+            }
+            set
+            {
+                songList = value;
+                OnPropertyChanged("SongList");
+            }
+        }
+
+
+
 
         #region Commands
 
@@ -100,56 +101,19 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
             }
         }
 
-        private void AddToOrderExecute()
+        private void AddSongExecute()
         {
             try
             {
-                //tblPizzaOrder thisPizza = FindPizzaByName(SelectedPizza.PizzaType);
-
-                //if (thisPizza != null && currentAmount == 0)
-                //{
-                //    CurrentAmount = (int)thisPizza.Amount;
-                //}
-                //if (CurrentAmount <= 0 || CurrentAmount > 50)
-                //{
-                //    MessageBox.Show("You have to order between 1 and 50 pizzas of one type");
-                //    return;
-                //}
-                //tblPizzaOrder newOrder = new tblPizzaOrder();
-                //newOrder.PizzaID = SelectedPizza.ID;
-                //newOrder.tblPizza = SelectedPizza;
-                ////newOrder.tblPizza.Price = SelectedPizza.Price;
-
-                //newOrder.Amount = CurrentAmount;
-                ////MessageBox.Show(newOrder.tblPizza.PizzaType);
-                ////SelectedPizza.Amount = currentAmount;
-
-                ////PizzaClass newPizza = new PizzaClass(SelectedPizza.Name, SelectedPizza.Price) { Amount = currentAmount};
-
-                //if (thisPizza != null)
-                //{
-                //    //MessageBox.Show(thisPizza.Amount.ToString());
-                //    totalAmountNum -= ((int)thisPizza.Amount * (decimal)thisPizza.tblPizza.Price);
-                //    OrederedPizzas.Remove(thisPizza);
-                //}
-
-
-                //totalAmountNum += (CurrentAmount * (int)SelectedPizza.Price);
-                ////OrederedPizzas.Add(newPizza);
-                //orederedPizzas.Add(newOrder);
-
-                //TotalAmount = string.Format("Total order price {0}", totalAmountNum);
-                //string outputStr = string.Format("Your order will contain {0} {1}", CurrentAmount, SelectedPizza.PizzaType);
-                //CurrentAmount = 0;
-                //MessageBox.Show(outputStr);
-
+                AddSong addSong = new AddSong();
+                addSong.ShowDialog();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
-        private bool CanAddToOrderExecute()
+        private bool CanAddSongExecute()
         {
             
             return true;

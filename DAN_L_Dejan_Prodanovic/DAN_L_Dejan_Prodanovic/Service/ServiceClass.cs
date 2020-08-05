@@ -82,5 +82,53 @@ namespace DAN_L_Dejan_Prodanovic.Service
             }
         }
 
+        public List<tblSong> GetSongs()
+        {
+            try
+            {
+                using (AudioPlayerDataEntities context = new AudioPlayerDataEntities())
+                {
+                    List<tblSong> list = new List<tblSong>();
+                    list = (from x in context.tblSongs select x).ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public tblSong AddSong(tblSong song)
+        {
+            try
+            {
+                using (AudioPlayerDataEntities context = new AudioPlayerDataEntities())
+                {
+
+                    tblSong newSong = new tblSong();
+
+                    newSong.SongName = song.SongName;
+                    newSong.Author = song.Author;
+                    newSong.SongLength = song.SongLength;
+
+
+                    context.tblSongs.Add(newSong);
+                    context.SaveChanges();
+
+                    return newSong;
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+
     }
 }

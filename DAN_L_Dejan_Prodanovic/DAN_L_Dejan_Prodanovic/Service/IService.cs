@@ -11,6 +11,8 @@ namespace DAN_L_Dejan_Prodanovic.Service
     {
         List<tblSong> GetSongs();
         tblUser AddUser(tblUser user);
+        tblSong AddSong(tblSong user);
+
         tblUser GetUserByUserName(string username);
         tblUser GetUserByUserNameAndPassword(string username,string password);
     }
