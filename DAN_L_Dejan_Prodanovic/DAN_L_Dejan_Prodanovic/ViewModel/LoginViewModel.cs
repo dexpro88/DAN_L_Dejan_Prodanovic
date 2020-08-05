@@ -87,7 +87,7 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
             }
             else
             {
-                MainMenu mainMenu = new MainMenu();
+                MainMenu mainMenu = new MainMenu(UserName);
                 mainMenu.Show();
                 view.Close();
             }

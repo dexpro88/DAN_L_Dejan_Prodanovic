@@ -16,20 +16,15 @@ using System.Windows.Shapes;
 namespace DAN_L_Dejan_Prodanovic.View
 {
     /// <summary>
-    /// Interaction logic for MainMenu.xaml
+    /// Interaction logic for AddSong.xaml
     /// </summary>
-    public partial class MainMenu : Window
+    public partial class AddSong : Window
     {
-        public MainMenu()
+        public AddSong()
         {
             InitializeComponent();
-            DataContext = new MainMenuViewModel(this);
-        }
+            DataContext = new AddSongViewModel(this);
 
-        public MainMenu(string username)
-        {
-            InitializeComponent();
-            DataContext = new MainMenuViewModel(this, username);
         }
     }
 }

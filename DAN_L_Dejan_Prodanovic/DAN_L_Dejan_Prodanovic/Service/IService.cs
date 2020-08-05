@@ -9,6 +9,7 @@ namespace DAN_L_Dejan_Prodanovic.Service
 {
     interface IService
     {
+        List<tblSong> GetSongs();
         tblUser AddUser(tblUser user);
         tblUser GetUserByUserName(string username);
         tblUser GetUserByUserNameAndPassword(string username,string password);

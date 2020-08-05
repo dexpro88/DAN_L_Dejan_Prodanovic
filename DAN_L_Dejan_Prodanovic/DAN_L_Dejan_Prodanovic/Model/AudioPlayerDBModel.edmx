@@ -4,15 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AudioPlayerDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="StudentCourse">
-          <Key>
-            <PropertyRef Name="SongID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="SongID" Type="int" Nullable="false" />
-          <Property Name="UserID" Type="int" Nullable="false" />
-        </EntityType>
+      <Schema Namespace="AudioPlayerDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblSong">
           <Key>
             <PropertyRef Name="SongID" />
@@ -21,6 +13,7 @@
           <Property Name="SongName" Type="varchar" MaxLength="50" />
           <Property Name="Author" Type="varchar" MaxLength="50" />
           <Property Name="SongLength" Type="varchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" />
         </EntityType>
         <EntityType Name="tblUser">
           <Key>
@@ -30,48 +23,31 @@
           <Property Name="UserName" Type="varchar" MaxLength="50" />
           <Property Name="UserPassword" Type="varchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK__StudentCo__SongI__3B75D760">
-          <End Role="tblSong" Type="Self.tblSong" Multiplicity="1" />
-          <End Role="StudentCourse" Type="Self.StudentCourse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblSong">
-              <PropertyRef Name="SongID" />
-            </Principal>
-            <Dependent Role="StudentCourse">
-              <PropertyRef Name="SongID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__StudentCo__UserI__3C69FB99">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
-          <End Role="StudentCourse" Type="Self.StudentCourse" Multiplicity="*" />
+        <Association Name="FK__tblSong__UserID__398D8EEE">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblSong" Type="Self.tblSong" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tblUser">
               <PropertyRef Name="UserID" />
             </Principal>
-            <Dependent Role="StudentCourse">
+            <Dependent Role="tblSong">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AudioPlayerDbModelStoreContainer">
-          <EntitySet Name="StudentCourse" EntityType="Self.StudentCourse" Schema="dbo" store:Type="Tables" />
+        <EntityContainer Name="AudioPlayerDataModelStoreContainer">
           <EntitySet Name="tblSong" EntityType="Self.tblSong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__StudentCo__SongI__3B75D760" Association="Self.FK__StudentCo__SongI__3B75D760">
-            <End Role="tblSong" EntitySet="tblSong" />
-            <End Role="StudentCourse" EntitySet="StudentCourse" />
-          </AssociationSet>
-          <AssociationSet Name="FK__StudentCo__UserI__3C69FB99" Association="Self.FK__StudentCo__UserI__3C69FB99">
+          <AssociationSet Name="FK__tblSong__UserID__398D8EEE" Association="Self.FK__tblSong__UserID__398D8EEE">
             <End Role="tblUser" EntitySet="tblUser" />
-            <End Role="StudentCourse" EntitySet="StudentCourse" />
+            <End Role="tblSong" EntitySet="tblSong" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AudioPlayerDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="AudioPlayerDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="tblSong">
           <Key>
             <PropertyRef Name="SongID" />
@@ -80,7 +56,8 @@
           <Property Name="SongName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SongLength" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblUsers" Relationship="Self.StudentCourse" FromRole="tblSong" ToRole="tblUser" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblSong__UserID__398D8EEE" FromRole="tblSong" ToRole="tblUser" />
         </EntityType>
         <EntityType Name="tblUser">
           <Key>
@@ -89,18 +66,26 @@
           <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblSongs" Relationship="Self.StudentCourse" FromRole="tblUser" ToRole="tblSong" />
+          <NavigationProperty Name="tblSongs" Relationship="Self.FK__tblSong__UserID__398D8EEE" FromRole="tblUser" ToRole="tblSong" />
         </EntityType>
-        <Association Name="StudentCourse">
+        <Association Name="FK__tblSong__UserID__398D8EEE">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblSong" Type="Self.tblSong" Multiplicity="*" />
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tblSong">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AudioPlayerDbEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="AudioPlayerDataEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblSongs" EntityType="Self.tblSong" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
-          <AssociationSet Name="StudentCourse" Association="Self.StudentCourse">
-            <End Role="tblSong" EntitySet="tblSongs" />
+          <AssociationSet Name="FK__tblSong__UserID__398D8EEE" Association="Self.FK__tblSong__UserID__398D8EEE">
             <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblSong" EntitySet="tblSongs" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -108,19 +93,20 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AudioPlayerDbModelStoreContainer" CdmEntityContainer="AudioPlayerDbEntities">
+        <EntityContainerMapping StorageEntityContainer="AudioPlayerDataModelStoreContainer" CdmEntityContainer="AudioPlayerDataEntities">
           <EntitySetMapping Name="tblSongs">
-            <EntityTypeMapping TypeName="AudioPlayerDbModel.tblSong">
+            <EntityTypeMapping TypeName="AudioPlayerDataModel.tblSong">
               <MappingFragment StoreEntitySet="tblSong">
                 <ScalarProperty Name="SongID" ColumnName="SongID" />
                 <ScalarProperty Name="SongName" ColumnName="SongName" />
                 <ScalarProperty Name="Author" ColumnName="Author" />
                 <ScalarProperty Name="SongLength" ColumnName="SongLength" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblUsers">
-            <EntityTypeMapping TypeName="AudioPlayerDbModel.tblUser">
+            <EntityTypeMapping TypeName="AudioPlayerDataModel.tblUser">
               <MappingFragment StoreEntitySet="tblUser">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -128,14 +114,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="StudentCourse" TypeName="AudioPlayerDbModel.StudentCourse" StoreEntitySet="StudentCourse">
-            <EndProperty Name="tblSong">
-              <ScalarProperty Name="SongID" ColumnName="SongID" />
-            </EndProperty>
-            <EndProperty Name="tblUser">
-              <ScalarProperty Name="UserID" ColumnName="UserID" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -14,18 +14,12 @@ namespace DAN_L_Dejan_Prodanovic.Model
     
     public partial class tblSong
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblSong()
-        {
-            this.tblUsers = new HashSet<tblUser>();
-        }
-    
         public int SongID { get; set; }
         public string SongName { get; set; }
         public string Author { get; set; }
         public string SongLength { get; set; }
+        public Nullable<int> UserID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblUser> tblUsers { get; set; }
+        public virtual tblUser tblUser { get; set; }
     }
 }

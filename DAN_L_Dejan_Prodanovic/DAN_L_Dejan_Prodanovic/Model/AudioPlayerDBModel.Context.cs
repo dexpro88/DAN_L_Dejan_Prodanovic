@@ -13,10 +13,10 @@ namespace DAN_L_Dejan_Prodanovic.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AudioPlayerDbEntities : DbContext
+    public partial class AudioPlayerDataEntities : DbContext
     {
-        public AudioPlayerDbEntities()
-            : base("name=AudioPlayerDbEntities")
+        public AudioPlayerDataEntities()
+            : base("name=AudioPlayerDataEntities")
         {
         }
     

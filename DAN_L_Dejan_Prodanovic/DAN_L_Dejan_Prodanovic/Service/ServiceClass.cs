@@ -13,7 +13,7 @@ namespace DAN_L_Dejan_Prodanovic.Service
         {
             try
             {
-                using (AudioPlayerDbEntities context = new AudioPlayerDbEntities())
+                using (AudioPlayerDataEntities context = new AudioPlayerDataEntities())
                 {
 
                     tblUser newUser = new tblUser();
@@ -41,7 +41,7 @@ namespace DAN_L_Dejan_Prodanovic.Service
         {
             try
             {
-                using (AudioPlayerDbEntities context = new AudioPlayerDbEntities())
+                using (AudioPlayerDataEntities context = new AudioPlayerDataEntities())
                 {
 
 
@@ -63,7 +63,7 @@ namespace DAN_L_Dejan_Prodanovic.Service
         {
             try
             {
-                using (AudioPlayerDbEntities context = new AudioPlayerDbEntities())
+                using (AudioPlayerDataEntities context = new AudioPlayerDataEntities())
                 {
 
 

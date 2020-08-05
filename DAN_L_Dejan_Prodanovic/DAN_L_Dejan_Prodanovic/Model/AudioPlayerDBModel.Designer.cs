@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\panonit\Desktop\Obuka\domaciGit\Dan50\DAN_L_Dejan_Prodanovic\DAN_L_Dejan_Prodanovic\DAN_L_Dejan_Prodanovic\Model\AudioPlayerDataModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\panonit\Desktop\Obuka\domaciGit\Dan50\DAN_L_Dejan_Prodanovic\DAN_L_Dejan_Prodanovic\DAN_L_Dejan_Prodanovic\Model\AudioPlayerDBModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
