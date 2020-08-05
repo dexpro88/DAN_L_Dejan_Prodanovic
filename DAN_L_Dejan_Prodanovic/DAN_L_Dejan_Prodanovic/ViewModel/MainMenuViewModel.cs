@@ -276,7 +276,7 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
         private void writeToFile()
         {
             string fileName = string.Format(@"..\..\MyMusic" + userLogedIn.UserName+".txt");
-            using (StreamWriter sw = new StreamWriter(fileName))
+            using (StreamWriter sw = File.AppendText(fileName))
             {
 
                 string str = string.Format(SelectedSong.SongName+" " + SelectedSong.Author
