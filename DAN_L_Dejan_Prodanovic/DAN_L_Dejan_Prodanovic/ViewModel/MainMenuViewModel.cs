@@ -4,8 +4,10 @@ using DAN_L_Dejan_Prodanovic.Service;
 using DAN_L_Dejan_Prodanovic.View;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -161,6 +163,49 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
         }
 
 
+        private ICommand playSong;
+        public ICommand PlaySong
+        {
+            get
+            {
+                if (playSong == null)
+                {
+                    playSong = new RelayCommand(param => PlaySongExecute(), param => CanPlaySongExecute());
+                
+                }
+                return playSong;
+            }
+        }
+
+        private void PlaySongExecute()
+        {
+            try
+            {
+                if (SelectedSong != null)
+                {
+                    Thread t = new Thread(writeToFile);
+                    t.Start();
+                    MessageBox.Show("Song is playing");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanPlaySongExecute()
+        {
+            if (SelectedSong == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+
 
         private ICommand logout;
         public ICommand Logout
@@ -228,6 +273,17 @@ namespace DAN_L_Dejan_Prodanovic.ViewModel
         }
         #endregion
 
-        
+        private void writeToFile()
+        {
+            string fileName = string.Format(@"..\..\MyMusic" + userLogedIn.UserName+".txt");
+            using (StreamWriter sw = new StreamWriter(fileName))
+            {
+
+                string str = string.Format(SelectedSong.SongName+" " + SelectedSong.Author
+                    +" " + SelectedSong.SongLength);
+                    sw.WriteLine(str);
+                 
+            }
+        }
     }
 }
